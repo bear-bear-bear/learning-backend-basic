@@ -1,0 +1,43 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport"
+        content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>Multipart Upload</title>
+  <style>
+    form {
+      display: flex;
+      flex-direction: column;
+      gap: 1rem;
+    }
+  </style>
+</head>
+<body>
+  <form id="form" action="/upload" method="post" enctype="multipart/form-data">
+    <label>
+      제목:
+      <input type="text" name="title" />
+    </label>
+    <label>
+      이미지 여러장 첨부:
+      <input type="file" name="image" multiple />
+    </label>
+    <button type="submit">업로드</button>
+  </form>
+  <script src="https://unpkg.com/axios/dist/axios.js"></script>
+  <script>
+    document.getElementById('form').addEventListener('submit', (e) => {
+      e.preventDefault();
+      const { image, title } = e.target;
+
+      const formData = new FormData();
+      formData.append('image', image.files);
+      formData.append('title', title.value);
+
+      axios.post('/upload', formData);
+    });
+  </script>
+</body>
+</html>
